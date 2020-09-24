@@ -1,0 +1,32 @@
+﻿.write fieldset {
+    border: none;
+    text-align: center;
+    margin: 10px 0;
+    height: auto;
+    min-height: 200px;
+    width: 100%;
+}
+.board_title, .board_subtitle {
+    border: none;
+    width: 80%;
+    min-width: 600px;
+    background-color: lightgray;
+    padding: 10px;
+    color: black;
+    border-radius: 3px;
+}
+.board_content {
+    border: none;
+    width: 90%;
+    height: auto;
+    min-height: 500px;
+    background-color: lightgray;
+    padding: 10px;
+    color: black;
+    border-radius: 3px;
+}
+
+.content {
+    height: auto;
+    min-height: 600px;
+}

@@ -1,0 +1,28 @@
+.wrap_list {
+    height: 800px;
+}
+
+.list {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.list_menu th, .list_menu td, .mini_list_menu th, .mini_list_menu td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.list_menu > th:nth-child(2) {
+    width: 500px;
+}
+.list_menu > td:nth-child(2) {
+     width: 500px;
+}
+
+.mini_list {
+    border-collapse: collapse;
+    width: 300px;
+    align-items: center;
+}
+
