@@ -1,5 +1,6 @@
 ﻿<%@ page import="member.MemberDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="member.MemberBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -73,33 +74,43 @@
                 <strong>3가지 이상</strong> 써 주세요</p>
         </div>
         <%
-            String id = request.getParameter("id");
+            String id = (String)session.getAttribute("id");
             MemberDAO mdao = new MemberDAO();
-
+            MemberBean mb = mdao.getMember(id);
         %>
         <div class="login">
             <fieldset>
                 <h2 style="text-align: left; margin-left: 50px">Basic Info</h2><hr>
-                <input type="text" name="name" class="text" placeholder="NAME"><br>
-
-                <input type="text" name="id" class="text" placeholder="ID"><br>
-                <input type="password" name="pass1" class="text" placeholder="PASSWORD"><br>
-                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK"><br>
-                <input type="text" name="postcode" id="postcode" placeholder="POST CODE" readonly
+                <input type="text" name="name" class="text" value="<%=mb.getName()%>"><br>
+                <input type="text" name="id" class="text" value="<%=id%>" readonly><br>
+                <input type="password" name="pass1" class="text" placeholder="PASSWORD" required><br>
+                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK" required><br>
+                <input type="text" name="postcode" id="postcode" value="<%=mb.getPostcode()%>" readonly
                        style="border: none; width: 205px; border-radius: 3px; background-color: lightgray; padding: 10px; color: black;">
                 <input type="button" value="우편번호조회" class="button" onclick="sample()"><br>
-                <input type="text" name="address1" id="address1" class="text" placeholder="ADDRESS" readonly><br>
-                <input type="text" name="address2" id="address2" class="text" placeholder="SUB ADDRESS"><br>
-                <input type="email" name="email" placeholder="E-MAIL" class="text"><br>
+                <input type="text" name="address1" id="address1" class="text"  value="<%=mb.getAddress1()%>" readonly><br>
+                <input type="text" name="address2" id="address2" class="text"  value="<%=mb.getAddress2()%>"><br>
+                <input type="email" name="email" value="<%=mb.getEmail()%>" class="text"><br>
 
                 <h2 style="text-align: left; margin-left: 50px">Sub Info</h2><hr>
-                <%--                <input type="text" name="age" placeholder="AGE" class="text"><br>--%>
-                <input type="text" name="phone" placeholder="PHONE NUMBER" class="text"><br>
+                <input type="text" name="age" placeholder="AGE" value="<%=mb.getAge()%>" class="text"><br>
+                <input type="text" name="phone" placeholder="PHONE NUMBER" value="<%=mb.getPhone()%>" class="text"><br>
+                <%
+                    if(mb.getGender().equals("남")) {
+                %>
                 <input type="radio" value="남" name="gender" checked> 남
                 <input type="radio" value="여" name="gender"> 여<br>
-
-                <input type="submit" value="회원가입" class="button">
-                <input type="button" value="회원가입 취소" onclick="location.href='main.jsp'" class="button">
+                <%
+                    } else {
+                %>
+                <input type="radio" value="남" name="gender"> 남
+                <input type="radio" value="여" name="gender" checked> 여<br>
+                <%
+                    }
+                %>
+                <input type="submit" value="회원수정" class="button">
+                <input type="button" value="회원삭제" onclick="location.href='deleteForm.jsp'" class="button">
+                <input type="button" value="회원수정 취소" onclick="location.href='main.jsp'" class="button">
             </fieldset>
         </div>
     </form>

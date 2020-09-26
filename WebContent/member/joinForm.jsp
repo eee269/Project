@@ -1,5 +1,6 @@
+<%@ page import="member.MemberDAO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,13 +57,38 @@
             }).open();
         }
 
+        function idCheck() {
+            var id = document.joinForm.id.value;
+
+            if(!id) {
+                alert("ID를 입력하세요");
+                return;
+            } else if (id.length < 6) {
+                alert("ID는 6글자 이상 입력하세요");
+                return;
+            }
+            <%
+            String id = request.getParameter("id");
+            MemberDAO mdao = new MemberDAO();
+            boolean result = mdao.idCheck(id);
+
+            if(result) {%>
+                alert("이미 사용중인 ID입니다.");
+                return;
+            <%} else {%>
+                alert("입력하신 " + id + "는 사용할 수 있는 ID입니다.");
+                return;
+            <%}
+%>
+        }
+
     </script>
 
 </head>
 <body>
 <jsp:include page="../inc/nav.jsp"/>
-<section>
-    <form action="joinPro.jsp" method="post">
+<section class="join">
+    <form action="joinPro.jsp" method="post" name="joinForm">
         <div class="left_notice">
             <h2>JOIN</h2>
             <p>ID는<br> <strong>6글자 이상</strong> 입력해주세요</p>
@@ -73,20 +99,23 @@
         <div class="login">
             <fieldset>
                 <h2 style="text-align: left; margin-left: 50px">Basic Info</h2><hr>
-                <input type="text" name="name" class="text" placeholder="NAME"><br>
+                <input type="text" name="name" class="text" placeholder="NAME" required><br>
 
-                <input type="text" name="id" class="text" placeholder="ID"><br>
-                <input type="password" name="pass1" class="text" placeholder="PASSWORD"><br>
-                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK"><br>
+                <input type="text" name="id" placeholder="ID"
+                       style="border: none; width: 205px; border-radius: 3px; background-color: lightgray; padding: 10px; color: black;" required>
+                <input type="button" value=" ID 중복 체크 " class="button" onclick="idCheck()"><br>
+
+                <input type="password" name="pass1" class="text" placeholder="PASSWORD" required><br>
+                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK" required><br>
                 <input type="text" name="postcode" id="postcode" placeholder="POST CODE" readonly
-                    style="border: none; width: 205px; border-radius: 3px; background-color: lightgray; padding: 10px; color: black;">
+                    style="border: none; width: 205px; border-radius: 3px; background-color: lightgray; padding: 10px; color: black;" required>
                 <input type="button" value="우편번호조회" class="button" onclick="sample()"><br>
                 <input type="text" name="address1" id="address1" class="text" placeholder="ADDRESS" readonly><br>
-                <input type="text" name="address2" id="address2" class="text" placeholder="SUB ADDRESS"><br>
-                <input type="email" name="email" placeholder="E-MAIL" class="text"><br>
+                <input type="text" name="address2" id="address2" class="text" placeholder="SUB ADDRESS" required><br>
+                <input type="email" name="email" placeholder="E-MAIL" class="text" required><br>
 
                 <h2 style="text-align: left; margin-left: 50px">Sub Info</h2><hr>
-<%--                <input type="text" name="age" placeholder="AGE" class="text"><br>--%>
+                <input type="text" name="age" placeholder="AGE" class="text"><br>
                 <input type="text" name="phone" placeholder="PHONE NUMBER" class="text"><br>
                 <input type="radio" value="남" name="gender" checked> 남
                 <input type="radio" value="여" name="gender"> 여<br>

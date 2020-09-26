@@ -28,8 +28,8 @@
             물처럼 내게 밀려오라 <br>
             이정하, 낮은 곳으로</p>
     </article>
-    <article style="position: absolute; left: 550px;">
-        <h1>Resent Board</h1>
+    <article style="position: absolute; left: 700px;">
+        <h1>Mini Board</h1>
         <br>
         <table class="mini_list">
             <tr class="mini_list_menu">
