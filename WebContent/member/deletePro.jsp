@@ -1,4 +1,4 @@
-﻿<%@ page import="member.MemberBean" %>
+<%@ page import="member.MemberBean" %>
 <%@ page import="member.MemberDAO" %><%--
   Created by IntelliJ IDEA.
   User: USER

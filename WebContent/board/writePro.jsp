@@ -1,4 +1,4 @@
-﻿<%@ page import="board.BoardBean" %>
+<%@ page import="board.BoardBean" %>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="member.MemberDAO" %>
 <%@ page import="java.sql.Timestamp" %>

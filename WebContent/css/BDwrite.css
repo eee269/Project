@@ -1,4 +1,4 @@
-﻿.write fieldset {
+.write fieldset {
     border: none;
     text-align: center;
     margin: 10px 0;
@@ -20,6 +20,14 @@
     width: 90%;
     height: auto;
     min-height: 500px;
+    background-color: lightgray;
+    padding: 10px;
+    color: black;
+    border-radius: 3px;
+}
+
+.board_reply_content {
+    border: none;
     background-color: lightgray;
     padding: 10px;
     color: black;

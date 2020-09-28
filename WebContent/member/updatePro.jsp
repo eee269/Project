@@ -1,4 +1,4 @@
-﻿<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.sql.Timestamp" %>
 <%@ page import="member.MemberBean" %>
 <%@ page import="member.MemberDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

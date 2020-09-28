@@ -1,4 +1,4 @@
-﻿<%@ page import="member.MemberDAO" %>
+<%@ page import="member.MemberDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="board.BoardDAO" %>
 <%@ page import="board.BoardBean" %>
@@ -31,7 +31,7 @@
     } else if (!id.equals(bb.getId())){
 %>
 <script type="text/javascript">
-    alert("수정할 수 없습니다.");
+    alert("접근할 수 없습니다.");
     history.back();
 </script>
 <%

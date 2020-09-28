@@ -1,5 +1,7 @@
-﻿<%@ page import="member.MemberDAO" %>
+<%@ page import="member.MemberDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="board.BoardDAO" %>
+<%@ page import="board.BoardBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,6 +15,10 @@
 <body>
 <jsp:include page="../inc/nav.jsp"/>
 <%
+    int num = Integer.parseInt(request.getParameter("num"));
+    BoardDAO bdao = new BoardDAO();
+    BoardBean bb = bdao.getBoard(num);
+
     String id = (String)session.getAttribute("id");
     if(id == null) {
 %>
@@ -21,8 +27,16 @@
     location.href="../member/loginForm.jsp";
 </script>
 <%
+} else if (!id.equals(bb.getId())){
+%>
+<script type="text/javascript">
+    alert("접근할 수 없습니다.");
+    history.back();
+</script>
+<%
     }
 %>
+
 
 <section>
     <form action="deletePro.jsp" method="post">

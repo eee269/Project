@@ -13,35 +13,28 @@
 <%--Banner...! / image width는 100% 꽉차게--%>
 <img src="../images/chihiro042.jpg" alt="banner" class="banner">
 <section>
-    <article>
-        <h1>Language</h1>
-        <br><br><hr>
-        <img src="https://img.icons8.com/ios-glyphs/30/000000/java-coffee-cup-logo.png"/>Java
-        <a href=""></a>
-        <a href=""></a>
-        <a href=""></a>
-        <a href=""></a>
-    </article>
+    <div>
+        <h1 style="text-align: left">Language</h1>
+        <hr>
+        <img src="https://img.icons8.com/ios/100/000000/java-coffee-cup-logo.png"/>&nbsp;&nbsp;&nbsp;
+        <img src="https://img.icons8.com/ios/100/000000/python.png"/>&nbsp;&nbsp;&nbsp;
+        <img src="https://img.icons8.com/ios/100/000000/html-5.png"/>
+        <br><br>
+    </div>
 
-    <article>
-        <h1>Language</h1>
-        <br><br><hr>
-        <img src="https://img.icons8.com/ios-glyphs/30/000000/java-coffee-cup-logo.png"/>Java
-        <a href=""></a>
-        <a href=""></a>
-        <a href=""></a>
-        <a href=""></a>
-    </article>
+    <div>
+        <h1 style="text-align: left">Tools</h1>
+        <hr>
 
-    <article>
-        <h1>Language</h1>
-        <br><br><hr>
-        <img src="https://img.icons8.com/ios-glyphs/30/000000/java-coffee-cup-logo.png"/>Java
-        <a href=""></a>
-        <a href=""></a>
-        <a href=""></a>
-        <a href=""></a>
-    </article>
+        <br><br>
+    </div>
+
+    <div>
+        <h1 style="text-align: left">Blur</h1>
+        <hr>
+
+        <br><br>
+    </div>
 </section>
 
 

@@ -9,15 +9,17 @@
 
 .list_menu th, .list_menu td, .mini_list_menu th, .mini_list_menu td {
     padding: 8px;
-    text-align: left;
+    text-align: right;
     border-bottom: 1px solid #ddd;
 }
 
 .list_menu > th:nth-child(2) {
-    width: 500px;
+    min-width: 500px;
+    width: auto;
 }
 .list_menu > td:nth-child(2) {
-     width: 500px;
+    min-width: 500px;
+    width: auto;
 }
 
 .mini_list {
