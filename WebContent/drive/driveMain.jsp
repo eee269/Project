@@ -18,7 +18,7 @@
 <jsp:include page="../inc/nav.jsp"/>
 
 <section>
-    <input type="button" value="Write" onclick="location.href='writeForm.jsp'"
+    <input type="button" value="Write" onclick="location.href='driveWriteForm.jsp'"
            class="button" style="float: right">
 
     <div class="wrap_list">
@@ -31,19 +31,19 @@
                 <th>Read</th>
             </tr>
             <%
-                DriveDAO ddao = new DriveDAO();
-                List driveList = ddao.getDriveList();
+                DriveDAO driveDAO = new DriveDAO();
+                List driveList = driveDAO.getDriveList();
                 SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd hh:mm");
 
                 for(int i=0; i<driveList.size(); i++) {
-                    DriveBean db = (DriveBean) driveList.get(i);
+                    DriveBean driveBean = (DriveBean) driveList.get(i);
             %>
-            <tr class="list_menu" onclick="location.href='contents.jsp?num=<%=db.getNum()%>'">
-                <td><%=db.getNum()%></td>
-                <td><%=db.getTitle()%></td>
-                <td><%=db.getId()%></td>
-                <td><%=sdf.format(db.getDate())%></td>
-                <td><%=db.getReadcount()%></td>
+            <tr class="list_menu" onclick="location.href='driveContents.jsp?num=<%=driveBean.getNum()%>'">
+                <td><%=driveBean.getNum()%></td>
+                <td><%=driveBean.getTitle()%></td>
+                <td><%=driveBean.getId()%></td>
+                <td><%=sdf.format(driveBean.getDate())%></td>
+                <td><%=driveBean.getReadcount()%></td>
             </tr>
             <%
                 }
@@ -66,7 +66,7 @@
         <a href="">next</a>
     </div>
 
-    <input type="button" value="Write" onclick="location.href='writeForm.jsp'"
+    <input type="button" value="Write" onclick="location.href='driveWriteForm.jsp'"
            class="button" style="float: right">
 </section>
 

@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardDAO {
+    Connection con = null;
+    String sql = null;
+    PreparedStatement pr = null;
+    ResultSet rs = null;
+
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Connection con = null;
+        con = null;
 
         Class.forName("com.mysql.jdbc.Driver");
         String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
@@ -20,13 +25,13 @@ public class BoardDAO {
     public BoardBean getBoard(int num) {
         BoardBean bb = null;
         try{
-            Connection con = getConnection();
+            con = getConnection();
 
-            String sql = "select * from board where num = ?";
-            PreparedStatement pr = con.prepareStatement(sql);
+            sql = "select * from board where num = ?";
+            pr = con.prepareStatement(sql);
             pr.setInt(1, num);
 
-            ResultSet rs = pr.executeQuery();
+            rs = pr.executeQuery();
 
             if(rs.next()) {
                 bb = new BoardBean();
@@ -47,11 +52,11 @@ public class BoardDAO {
     public List getBoardList() {
         List boardList = new ArrayList();
         try {
-            Connection con = getConnection();
+            con = getConnection();
 
-            String sql = "select * from board order by num desc";
-            PreparedStatement pr = con.prepareStatement(sql);
-            ResultSet rs = pr.executeQuery();
+            sql = "select * from board order by num desc";
+            pr = con.prepareStatement(sql);
+            rs = pr.executeQuery();
 
             while(rs.next()) {
                 BoardBean bb = new BoardBean();
@@ -74,11 +79,11 @@ public class BoardDAO {
 
     public void insertBoard(BoardBean bb) {
         try {
-            Connection con = getConnection();
+            con = getConnection();
 
-            String sql = "select max(num) from board";
-            PreparedStatement pr = con.prepareStatement(sql);
-            ResultSet rs = pr.executeQuery();
+            sql = "select max(num) from board";
+            pr = con.prepareStatement(sql);
+            rs = pr.executeQuery();
 
             int num=0;
             if(rs.next()) {
@@ -106,10 +111,10 @@ public class BoardDAO {
 
     public void updateReadcount(int num) {
         try {
-            Connection con = getConnection();
+            con = getConnection();
 
-            String sql = "update board set readcount=readcount+1 where num=?";
-            PreparedStatement pr = con.prepareStatement(sql);
+            sql = "update board set readcount=readcount+1 where num=?";
+            pr = con.prepareStatement(sql);
             pr.setInt(1, num);
 
             pr.executeUpdate();
@@ -120,10 +125,10 @@ public class BoardDAO {
 
     public void updateBoard(BoardBean bb) {
         try {
-            Connection con = getConnection();
+            con = getConnection();
 
-            String sql = "update board set title=?, content=?, date=? where num=?";
-            PreparedStatement pr = con.prepareStatement(sql);
+            sql = "update board set title=?, content=?, date=? where num=?";
+            pr = con.prepareStatement(sql);
 
             pr.setString(1, bb.getTitle());
             pr.setString(2, bb.getContent());
@@ -133,6 +138,25 @@ public class BoardDAO {
             pr.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+
+        }
+    }
+
+    public void deleteBoard(int num, String id) {
+        try {
+            con = getConnection();
+
+            sql = "DELETE FROM board WHERE num=? and id = ?";
+            pr = con.prepareStatement(sql);
+            pr.setInt(1, num);
+            pr.setString(2, id);
+
+            pr.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
         }
     }
 }

@@ -1,7 +1,9 @@
-<%@ page import="board.BoardBean" %>
-<%@ page import="board.BoardDAO" %>
 <%@ page import="member.MemberDAO" %>
 <%@ page import="java.sql.Timestamp" %>
+<%@ page import="drive.DriveDAO" %>
+<%@ page import="drive.DriveBean" %>
+<%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html>
@@ -14,34 +16,39 @@
 </head>
 <body>
 <%
-    request.setCharacterEncoding("utf-8");
-    String id = request.getParameter("id");
-    String pass2 = request.getParameter("pass2");
-    String title = request.getParameter("title");
-    String content = request.getParameter("content");
+    String realPath = request.getServletContext().getRealPath("driveUpload");
+    int maxSize = 10*1024*1024;
+    MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
+
+    String id = multi.getParameter("id");
+    String pass2 = multi.getParameter("pass2");
+    String title = multi.getParameter("title");
+    String content = multi.getParameter("content");
     Timestamp date = new Timestamp(System.currentTimeMillis());
     int readcount = 0;
+    String file = multi.getParameter("file");
 
     MemberDAO mdao = new MemberDAO();
     int check = mdao.userCheck(id, pass2);
 
-    BoardDAO bdao = new BoardDAO();
-    BoardBean bb = new BoardBean();
+    DriveDAO driveDAO = new DriveDAO();
+    DriveBean driveBean = new DriveBean();
 
-    bb.setId(id);
-    bb.setPass(pass2);
-    bb.setTitle(title);
-    bb.setContent(content);
-    bb.setDate(date);
-    bb.setReadcount(readcount);
+    driveBean.setId(id);
+    driveBean.setPass(pass2);
+    driveBean.setTitle(title);
+    driveBean.setContent(content);
+    driveBean.setDate(date);
+    driveBean.setReadcount(readcount);
+    driveBean.setFile(file);
 
     switch (check) {
         case 1:
-            bdao.insertBoard(bb);
+            driveDAO.insertDrive(driveBean);
             %>
             <script type="text/javascript">
                 alert("게시글이 작성되었습니다.");
-                location.href="boardMain.jsp"
+                location.href="driveMain.jsp"
             </script>
             <%
             break;
@@ -60,7 +67,7 @@
     location.href="../member/loginForm.jsp"
 </script>
 <%
-}
+    }
 %>
 </body>
 </html>

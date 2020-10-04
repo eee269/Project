@@ -9,7 +9,7 @@
 
 .list_menu th, .list_menu td, .mini_list_menu th, .mini_list_menu td {
     padding: 8px;
-    text-align: right;
+    text-align: center;
     border-bottom: 1px solid #ddd;
 }
 

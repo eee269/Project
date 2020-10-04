@@ -1,4 +1,4 @@
-﻿<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.sql.Timestamp" %>
 <%@ page import="board.BoardReplyBean" %>
 <%@ page import="board.BoardReplyDAO" %><%--
   Created by IntelliJ IDEA.

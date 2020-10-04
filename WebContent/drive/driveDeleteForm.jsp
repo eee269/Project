@@ -1,7 +1,5 @@
-<%@ page import="member.MemberDAO" %>
-<%@ page import="java.util.List" %>
-<%@ page import="board.BoardDAO" %>
-<%@ page import="board.BoardBean" %>
+<%@ page import="drive.DriveDAO" %>
+<%@ page import="drive.DriveBean" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,8 +14,8 @@
 <jsp:include page="../inc/nav.jsp"/>
 <%
     int num = Integer.parseInt(request.getParameter("num"));
-    BoardDAO bdao = new BoardDAO();
-    BoardBean bb = bdao.getBoard(num);
+    DriveDAO driveDAO = new DriveDAO();
+    DriveBean driveBean = driveDAO.getDrive(num);
 
     String id = (String)session.getAttribute("id");
     if(id == null) {
@@ -27,7 +25,7 @@
     location.href="../member/loginForm.jsp";
 </script>
 <%
-} else if (!id.equals(bb.getId())){
+} else if (!id.equals(driveBean.getId())){
 %>
 <script type="text/javascript">
     alert("접근할 수 없습니다.");
@@ -39,19 +37,19 @@
 
 
 <section>
-    <form action="deletePro.jsp" method="post">
+    <form action="driveDeletePro.jsp" method="post">
         <div class="write">
             <fieldset>
-                <h2>Board Delete</h2><hr>
+                <h2>Drive Delete</h2><hr>
                 <input type="hidden" name="num" value="<%=num%>">
                 <input type="text" name="id" class="text" value="<%=id%>" readonly>
                 <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK"><br>
                 <input type="text" name="title" class="board_title" placeholder="TITLE"><br>
                 <hr>
                 <textarea name="content" cols="30" rows="10" class="board_content"
-                          placeholder="CONTENT"></textarea><br>
+                          placeholder="MEMO"></textarea><br>
 
-                <input type="button" value="작성 취소" onclick="location.href='boardMain.jsp'"
+                <input type="button" value="작성 취소" onclick="location.href='driveMain.jsp'"
                        class="button" style="float: right">
                 <input type="submit" value="작성 완료" class="button" style="float: right">
             </fieldset>

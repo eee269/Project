@@ -1,15 +1,9 @@
 <%@ page import="member.MemberDAO" %>
-<%@ page import="board.BoardDAO" %><%--
-  Created by IntelliJ IDEA.
-  User: USER
-  Date: 2020-09-24
-  Time: 오전 11:06
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="drive.DriveDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>YEJIN_Board_Delete</title>
+    <title>YEJIN_Drive_Delete</title>
 </head>
 <body>
 <%
@@ -22,16 +16,17 @@
 
     switch (check) {
         case 1:
-            BoardDAO boardDAO = new BoardDAO();
-            boardDAO.deleteBoard(num, id);
+            DriveDAO driveDAO = new DriveDAO();
+            driveDAO.deleteDrive(num, id);
+//driveUpload에 있는 파일도 삭제해야할것같은디?
 %>
 <script type="text/javascript">
     alert("게시물이 삭제되었습니다.");
-    location.href = "boardMain.jsp";
+    location.href = "driveMain.jsp";
 </script>
 <%
-            break;
-        case 0:
+        break;
+    case 0:
 %>
 <script type="text/javascript">
     alert("비밀번호를 확인하세요");
@@ -48,7 +43,5 @@
 <%
     }
 %>
-
-
 </body>
 </html>

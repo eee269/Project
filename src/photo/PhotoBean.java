@@ -1,8 +1,8 @@
-package drive;
+package photo;
 
 import java.sql.Timestamp;
 
-public class DriveBean {
+public class PhotoBean {
     private int num;
     private String id;
     private String pass;

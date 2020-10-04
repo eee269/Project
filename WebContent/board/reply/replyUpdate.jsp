@@ -1,4 +1,4 @@
-﻿<%@ page import="board.BoardReplyDAO" %><%--
+<%@ page import="board.BoardReplyDAO" %><%--
   Created by IntelliJ IDEA.
   User: USER
   Date: 2020-09-27

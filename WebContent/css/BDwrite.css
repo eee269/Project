@@ -38,3 +38,7 @@
     height: auto;
     min-height: 600px;
 }
+
+.memo {
+    height: 100px;
+}
