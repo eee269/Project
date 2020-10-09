@@ -35,15 +35,23 @@
             <hr>
             <pre class="memo"><%=photoBean.getContent()%></pre>
             <hr>
-            <p><a href="/upload/<%=photoBean.getFile()%>"><%=photoBean.getFile()%></a></p>
+            <p><a href="/photoUpload/<%=photoBean.getFile()%>"><%=photoBean.getFile()%></a></p>
             <hr>
 
             <input type="button" value="List" onclick="location.href='photoMain.jsp'"
                    class="button" style="float: right">
-            <input type="submit" value="Delete"  onclick="location.href='photoDeleteForm.jsp?num=<%=photoBean.getNum()%>'"
-                   class="button" style="float: right">
+            <%
+            if(id != null) {
+                if(id.equals(photoBean.getId())) {
+            %>
+                <input type="submit" value="Delete"  onclick="location.href='photoDeleteForm.jsp?num=<%=photoBean.getNum()%>'"
+            class="button" style="float: right">
             <input type="submit" value="Update"  onclick="location.href='photoUpdateForm.jsp?num=<%=photoBean.getNum()%>'"
                    class="button" style="float: right">
+            <%
+                }
+            }
+            %>
         </fieldset>
     </div>
 </section>

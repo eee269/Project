@@ -28,8 +28,8 @@
             물처럼 내게 밀려오라 <br>
             이정하, 낮은 곳으로</p>
     </article>
-    <article style="position: absolute; left: 700px;">
-        <h1>Mini Board</h1>
+    <article style="position: absolute; left: 500px;">
+        <h1>Board</h1>
         <br>
         <table class="mini_list">
             <tr class="mini_list_menu">
@@ -37,18 +37,16 @@
                 <th>Title</th>
             </tr>
             <%
-                BoardDAO bdao = new BoardDAO();
-                List boardList = bdao.getBoardList();
-                SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd hh:mm");
-                int size = boardList.size();
+                int pageSize = 5, startRow = 1;
+                BoardDAO boardDAO = new BoardDAO();
+                List boardList = boardDAO.getBoardList(startRow, pageSize);
 
-                for(int i=size-1; i>size-6; i--) {
-                    if(i<0) break;
-                    BoardBean bb = (BoardBean) boardList.get(i);
+                for(int i=0; i<boardList.size(); i++) {
+                    BoardBean boardBean = (BoardBean) boardList.get(i);
             %>
-            <tr class="list_menu" onclick="location.href='../board/contents.jsp?num=<%=bb.getNum()%>'">
-                <td><%=bb.getNum()%></td>
-                <td><%=bb.getTitle()%></td>
+            <tr class="list_menu" onclick="location.href='../board/contents.jsp?num=<%=boardBean.getNum()%>'">
+                <td><%=boardBean.getNum()%></td>
+                <td><%=boardBean.getTitle()%></td>
             </tr>
             <%
                 }

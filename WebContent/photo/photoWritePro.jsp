@@ -15,7 +15,8 @@
 </head>
 <body>
 <%
-    String realPath = request.getServletContext().getRealPath("photoUpload");
+    String realPath = request.getServletContext().getRealPath("driveUpload");
+    out.print(realPath);
     int maxSize = 10*1024*1024;
     MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 
@@ -25,7 +26,7 @@
     String content = multi.getParameter("content");
     Timestamp date = new Timestamp(System.currentTimeMillis());
     int readcount = 0;
-    String file = multi.getParameter("file");
+    String file = multi.getFilesystemName("file");
 
     MemberDAO mdao = new MemberDAO();
     int check = mdao.userCheck(id, pass);
@@ -33,16 +34,16 @@
     PhotoDAO photoDAO = new PhotoDAO();
     PhotoBean photoBean = new PhotoBean();
 
-    photoBean.setId(id);
-    photoBean.setPass(pass);
-    photoBean.setTitle(title);
-    photoBean.setContent(content);
-    photoBean.setDate(date);
-    photoBean.setReadcount(readcount);
-    photoBean.setFile(file);
-
     switch (check) {
         case 1:
+            photoBean.setId(id);
+            photoBean.setPass(pass);
+            photoBean.setTitle(title);
+            photoBean.setContent(content);
+            photoBean.setDate(date);
+            photoBean.setReadcount(readcount);
+            photoBean.setFile(file);
+
             photoDAO.insertPhoto(photoBean);
 %>
 <script type="text/javascript">

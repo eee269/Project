@@ -28,10 +28,10 @@
             <fieldset>
                 <h2>Drive Write</h2><hr>
                 <input type="text" name="id" class="text" value="<%=id%>" readonly>
-                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK"><br>
-                <input type="text" name="title" class="board_title" placeholder="TITLE"><br>
+                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK" required><br>
+                <input type="text" name="title" class="board_title" placeholder="TITLE" required><br>
                 <hr>
-                <input type="file" name="file"><br>
+                <input type="file" name="file" required><br>
                 <hr>
                 <textarea name="content" cols="30" rows="5" class="board_content"
                     placeholder="MEMO"></textarea><br>

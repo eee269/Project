@@ -9,16 +9,27 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("utf-8");
 String id = request.getParameter("id");
 String pass = request.getParameter("pass1");
 
 MemberDAO mdao = new MemberDAO();
 int check = mdao.userCheck(id, pass);
+boolean emailChecked = mdao.getUserEmailChecked(id);
 
 switch (check) {
-	case 1:
-		session.setAttribute("id", id);
-		response.sendRedirect("main.jsp");
+    case 1:
+        if(!emailChecked) {
+            %>
+<script type="text/javascript">
+    alert("이메일 인증이 필요합니다.");
+    location.href="../member/mailCheck.jsp?id=<%=id%>";
+</script>
+            <%
+        } else {
+            session.setAttribute("id", id);
+            response.sendRedirect("main.jsp");
+        }
 		break;
 	case 0:
 %>

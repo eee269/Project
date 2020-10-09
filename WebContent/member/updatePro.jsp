@@ -20,7 +20,7 @@
     String address1 = request.getParameter("address1");
     String address2 = request.getParameter("address2");
     String email = request.getParameter("email");
-    Timestamp date = Timestamp.valueOf(request.getParameter("date"));
+    Timestamp date = new Timestamp(System.currentTimeMillis());
     String phone = request.getParameter("phone");
     int age = Integer.parseInt(request.getParameter("age"));
 
@@ -60,7 +60,7 @@
     mdao.updateMember(mb);
 %>
 <script type="text/javascript">
-    alert("회원가입을 축하합니다!");
+    alert("정보가 변경되었습니다.");
     location.href="main.jsp";
 </script>
 

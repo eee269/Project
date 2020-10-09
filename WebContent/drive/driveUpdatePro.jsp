@@ -21,7 +21,7 @@
     String title = multi.getParameter("title");
     String content = multi.getParameter("content");
     Timestamp date = new Timestamp(System.currentTimeMillis());
-    String file = multi.getParameter("file");
+    String file = multi.getFilesystemName("file");
 
     MemberDAO mdao = new MemberDAO();
     int check = mdao.userCheck(id, pass2);

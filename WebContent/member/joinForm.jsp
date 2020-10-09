@@ -58,28 +58,18 @@
         }
 
         function idCheck() {
-            var id = document.joinForm.id.value;
+            var id = document.joiner.id.value;
 
-            if(!id) {
+            if(id == "") {
                 alert("ID를 입력하세요");
+                document.joiner.id.focus();
                 return;
             } else if (id.length < 6) {
                 alert("ID는 6글자 이상 입력하세요");
+                document.joiner.id.focus();
                 return;
             }
-            <%
-            String id = request.getParameter("id");
-            MemberDAO mdao = new MemberDAO();
-            boolean result = mdao.idCheck(id);
-
-            if(result) {%>
-                alert("이미 사용중인 ID입니다.");
-                return;
-            <%} else {%>
-                alert("입력하신 " + id + "는 사용할 수 있는 ID입니다.");
-                return;
-            <%}
-%>
+            window.open("dupCheck.jsp?id=" + id, "", "width=400, height=300");
         }
 
     </script>
@@ -88,7 +78,7 @@
 <body>
 <jsp:include page="../inc/nav.jsp"/>
 <section class="join">
-    <form action="joinPro.jsp" method="post" name="joinForm">
+    <form action="joinPro.jsp" method="post" name="joiner">
         <div class="left_notice">
             <h2>JOIN</h2>
             <p>ID는<br> <strong>6글자 이상</strong> 입력해주세요</p>

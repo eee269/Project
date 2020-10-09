@@ -31,7 +31,7 @@
             document.replyInputForm.rememo.focus();
             return;
         }
-        document.replyInputForm.reno.value = 0;
+        document.replyInputForm.rememo.value = "";
         location.reload();
         document.replyInputForm.submit();
     }

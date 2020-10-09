@@ -7,16 +7,23 @@ public class MemberBean {
 	private String pass;
 	private String name;
 	private Timestamp date;
+
 	private int age;
+
 	private String gender;
 	private String email;
 	private String postcode;
 	private String address1;
 	private String address2;
 	private String phone;
+
+	private int emailHash;
+	private boolean emailChecked;
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -38,7 +45,6 @@ public class MemberBean {
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
-
 	public int getAge() {
 		return age;
 	}
@@ -93,6 +99,22 @@ public class MemberBean {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public int getEmailHash() {
+		return emailHash;
+	}
+
+	public void setEmailHash(int emailHash) {
+		this.emailHash = emailHash;
+	}
+
+	public boolean isEmailChecked() {
+		return emailChecked;
+	}
+
+	public void setEmailChecked(boolean emailChecked) {
+		this.emailChecked = emailChecked;
 	}
 
 }

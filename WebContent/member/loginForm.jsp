@@ -12,8 +12,6 @@
 <jsp:include page="../inc/nav.jsp"/>
 <section>
     <form action="loginPro.jsp" method="post">
-
-    <%--    login 설명.. join에서 한것 갖고오기 left_notice--%>
         <div class="left_notice">
             <h2>Login</h2>
             <p>이상이 있을 시에는<br>아래의 연락처로 연락해주세요.</p>

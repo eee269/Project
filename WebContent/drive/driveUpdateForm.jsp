@@ -13,7 +13,6 @@
 <body>
 <jsp:include page="../inc/nav.jsp"/>
 <%
-
     int num = Integer.parseInt(request.getParameter("num"));
     DriveDAO driveDAO = new DriveDAO();
     DriveBean driveBean = driveDAO.getDrive(num);
@@ -46,7 +45,7 @@
                 <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK"><br>
                 <input type="text" name="title" class="board_title" value="<%=driveBean.getTitle()%>"><br>
                 <hr>
-                <input type="file" name="file"> <br>
+                <input type="file" name="file" value="<%=driveBean.getFile()%>"> <br>
                 <hr>
                 <textarea name="content" cols="30" rows="5" class="board_content">
                     <%=driveBean.getContent()%>

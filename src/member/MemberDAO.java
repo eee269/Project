@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class MemberDAO {
 //	DB에 권한부여
@@ -17,39 +18,16 @@ public class MemberDAO {
 	PreparedStatement pr;
 	ResultSet rs;
 
-
 	public Connection getConnection() throws ClassNotFoundException, SQLException {
 		con = null;
 		
 		Class.forName("com.mysql.jdbc.Driver");
-		String dbUrl = "jdbc:mysql://localhost:3306/jspyj?useSSL=false";
+		String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
 		String dbUser = "root";
 		String dbPass = "l8426k";
 		con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
 		
 		return con;
-	}
-	public boolean idCheck(String id) {
-		boolean check = false;
-		try {
-			con = getConnection();
-			sql = "SELECT id FROM member where id = ?";
-			pr = con.prepareStatement(sql);
-			pr.setString(1, id);
-			rs = pr.executeQuery();
-
-			if(rs.next()) {
-				check = true;
-			}
-
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			try{ rs.close(); } catch (SQLException s) {}
-			try{ pr.close(); } catch (SQLException s) {}
-			try{ con.close(); } catch (SQLException s) {}
-		}
-		return check;
 	}
 	
 	public int userCheck(String id, String pass) {
@@ -69,6 +47,32 @@ public class MemberDAO {
 			
 		} catch(Exception e) {
 			e.printStackTrace();
+		} finally {
+//			if(rs!=null) try{ rs.close(); } catch (SQLException s) {}
+//			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+//			if(con!=null) try{ con.close(); } catch (SQLException s) {}
+		}
+		return check;
+	}
+
+	public int dupCheck(String id) {
+		int check = 0;
+		try {
+			con = getConnection();
+			sql = "SELECT id FROM member where id = ?";
+			pr = con.prepareStatement(sql);
+			pr.setString(1, id);
+			rs = pr.executeQuery();
+
+			if(rs.next())		check = 1;
+			else 				check = 0;
+
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs!=null) try{ rs.close(); } catch (SQLException s) {}
+			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+			if(con!=null) try{ con.close(); } catch (SQLException s) {}
 		}
 		return check;
 	}
@@ -77,8 +81,8 @@ public class MemberDAO {
 		try {
 			con = getConnection();
 
-			sql = "INSERT INTO member(pass, id, name, date, age, gender, email, phone, postcode, address1, address2) " +
-					"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			sql = "INSERT INTO member(pass, id, name, date, age, gender, email, phone, postcode, address1, address2, emailHash, emailChecked) " +
+					"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			pr = con.prepareStatement(sql);
 
 
@@ -93,11 +97,16 @@ public class MemberDAO {
 			pr.setString(9, mb.getPostcode());
 			pr.setString(10, mb.getAddress1());
 			pr.setString(11, mb.getAddress2());
+			pr.setInt(12, mb.getEmailHash());
+			pr.setBoolean(13, false);
 
 			pr.executeUpdate();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+			if(con!=null) try{ con.close(); } catch (SQLException s) {}
 		}
 	}
 
@@ -122,13 +131,17 @@ public class MemberDAO {
 				mb.setEmail(rs.getString("email"));
 				mb.setPhone(rs.getString("phone"));
 				mb.setGender(rs.getString("gender"));
+				mb.setEmailHash(rs.getInt("emailHash"));
+				mb.setEmailChecked(rs.getBoolean("emailChecked"));
 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(rs!=null) try{ rs.close(); } catch (SQLException s) {}
+			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+			if(con!=null) try{ con.close(); } catch (SQLException s) {}
 		}
-
-
 		return mb;
     }
 
@@ -155,6 +168,9 @@ public class MemberDAO {
 			pr.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+			if(con!=null) try{ con.close(); } catch (SQLException s) {}
 		}
 	}
 
@@ -170,6 +186,71 @@ public class MemberDAO {
 			pr.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+			if(con!=null) try{ con.close(); } catch (SQLException s) {}
 		}
+	}
+
+	public int getUserEmailHash(String id) {
+		try{
+			con = getConnection();
+
+			sql = "select emailHash from member where id=?";
+			pr = con.prepareStatement(sql);
+			pr.setString(1, id);
+			rs = pr.executeQuery();
+
+			if(rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(rs!=null) try{ rs.close(); } catch (SQLException s) {}
+			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+			if(con!=null) try{ con.close(); } catch (SQLException s) {}
+		}
+		return 0;
+	}
+
+
+	public boolean getUserEmailChecked(String id) {
+		try{
+			con = getConnection();
+
+			sql = "select emailChecked from member where id=?";
+			pr = con.prepareStatement(sql);
+			pr.setString(1, id);
+			rs = pr.executeQuery();
+
+			if(rs.next()) {
+				return rs.getBoolean("emailChecked");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+//			if(rs!=null) try{ rs.close(); } catch (SQLException s) {}
+//			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+//			if(con!=null) try{ con.close(); } catch (SQLException s) {}
+		}
+		return false;
+	}
+
+	public boolean setUserEmailChecked(String id) {
+		try{
+			con = getConnection();
+
+			sql = "UPDATE member SET emailChecked = true where id=?";
+			pr = con.prepareStatement(sql);
+			pr.setString(1, id);
+			pr.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pr!=null) try{ pr.close(); } catch (SQLException s) {}
+			if(con!=null) try{ con.close(); } catch (SQLException s) {}
+		}
+		return false;
 	}
 }

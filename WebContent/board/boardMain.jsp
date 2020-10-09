@@ -15,6 +15,23 @@
 <body>
 <jsp:include page="../inc/nav.jsp"/>
 
+<%
+    BoardDAO boardDAO = new BoardDAO();
+    int count = boardDAO.getBoardCount();
+
+    int pageSize = 10;
+    String pageNum = request.getParameter("pageNum");
+    if(pageNum == null) {
+        pageNum = "1";
+    }
+
+    int currentPage = Integer.parseInt(pageNum);
+    int startRow = (currentPage-1) * pageSize + 1;
+
+    List boardList = boardDAO.getBoardList(startRow, pageSize);
+    SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd hh:mm");
+
+%>
 <section>
     <input type="button" value="Write" onclick="location.href='writeForm.jsp'"
            class="button" style="float: right">
@@ -29,10 +46,6 @@
                 <th>Read</th>
             </tr>
         <%
-            BoardDAO bdao = new BoardDAO();
-            List boardList = bdao.getBoardList();
-            SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd hh:mm");
-
 
             for(int i=0; i<boardList.size(); i++) {
                 BoardBean bb = (BoardBean) boardList.get(i);
@@ -50,20 +63,24 @@
         </table>
     </div>
 
-    <div id="page">
-        <a href="">prev</a>
-        <a href="">1</a>
-        <a href="">2</a>
-        <a href="">3</a>
-        <a href="">4</a>
-        <a href="">5</a>
-        <a href="">6</a>
-        <a href="">7</a>
-        <a href="">8</a>
-        <a href="">9</a>
-        <a href="">10</a>
-        <a href="">next</a>
-    </div>
+    <%
+        int pageBlock = 10;
+        int startPage = (currentPage-1)/pageSize * pageSize + 1;
+        int endPage = startPage + pageBlock - 1;
+        int pageCount = count/pageSize + (count%pageSize == 0? 0 : 1);
+        if(endPage > pageCount) {
+            endPage = pageCount;
+        }
+        if(startPage > pageBlock) {
+            %><a href="boardMain.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a> <%
+        }
+        for(int i=startPage; i<endPage+1; i++) {
+            %><a href="boardMain.jsp?pageNum=<%=i%>"><%=i%> </a><%
+        }
+        if(endPage < pageBlock) {
+            %><a href="boardMain.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a> <%
+        }
+    %>
 
     <input type="button" value="Write" onclick="location.href='writeForm.jsp'"
            class="button" style="float: right">

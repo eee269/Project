@@ -92,7 +92,7 @@ public class PhotoDAO {
         try {
             con = getConnection();
 
-            sql = "UPDATE drive SET readcount = readcount+1 WHERE num = ?";
+            sql = "UPDATE photo SET readcount = readcount+1 WHERE num = ?";
             pr = con.prepareStatement(sql);
             pr.setInt(1, num);
             pr.executeUpdate();

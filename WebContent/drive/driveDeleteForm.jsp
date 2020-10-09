@@ -44,10 +44,6 @@
                 <input type="hidden" name="num" value="<%=num%>">
                 <input type="text" name="id" class="text" value="<%=id%>" readonly>
                 <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK"><br>
-                <input type="text" name="title" class="board_title" placeholder="TITLE"><br>
-                <hr>
-                <textarea name="content" cols="30" rows="10" class="board_content"
-                          placeholder="MEMO"></textarea><br>
 
                 <input type="button" value="작성 취소" onclick="location.href='driveMain.jsp'"
                        class="button" style="float: right">

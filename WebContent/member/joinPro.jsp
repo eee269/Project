@@ -1,6 +1,8 @@
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="member.MemberBean" %>
 <%@ page import="member.MemberDAO" %>
+<%@ page import="java.util.Random" %>
+<%@ page import="member.MailSend" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -24,13 +26,26 @@
     String email = request.getParameter("email");
     Timestamp date = new Timestamp(System.currentTimeMillis());
     String phone = request.getParameter("phone");
-    int age = Integer.parseInt(request.getParameter("age"));
+    int age = request.getParameter("age").isEmpty()? 0: Integer.parseInt(request.getParameter("age"));
+    Random random = new Random();
 
     MemberBean mb = new MemberBean();
 
     if(pass1.length() >= 8 && pass1.length() <= 12) {
         if(pass1.equals(pass2)) {
             mb.setPass(pass1);
+
+            mb.setId(id);
+            mb.setName(name);
+            mb.setPostcode(postcode);
+            mb.setAddress1(address1);
+            mb.setAddress2(address2);
+            mb.setEmail(email);
+            mb.setDate(date);
+            mb.setAge(age);
+            mb.setPhone(phone);
+            mb.setGender(gender);
+            mb.setEmailHash(random.nextInt(999999));
         } else {
 %>
 <script type="text/javascript">
@@ -47,24 +62,22 @@
 </script>
 <%
     }
-    mb.setId(id);
-    mb.setName(name);
-    mb.setPostcode(postcode);
-    mb.setAddress1(address1);
-    mb.setAddress2(address2);
-    mb.setEmail(email);
-    mb.setDate(date);
-    mb.setAge(age);
-    mb.setPhone(phone);
-    mb.setGender(gender);
-
     MemberDAO mdao = new MemberDAO();
     mdao.joinMember(mb);
-%>
-<script type="text/javascript">
-    alert("회원가입을 축하합니다!");
-    location.href="main.jsp";
-</script>
 
+//    request.getSession().setAttribute("id", id);
+//    response.sendRedirect("/mailSend");
+//
+//    MailSend mailSend = new MailSend();
+//    mailSend.MailSet(mb.getEmail(), mb.getEmailHash());
+%>
+
+<form action="../member/mailSend.jsp" method="post" id="fm">
+    <input type="hidden" name="id" value="<%=mb.getId()%>">
+    <input type="hidden" name="email" value="<%=mb.getEmail()%>">
+</form>
+<script type="text/javascript">
+    document.getElementById("fm").submit();
+</script>
 </body>
 </html>

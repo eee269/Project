@@ -37,7 +37,7 @@
             <hr>
             <pre class="memo"><%=driveBean.getContent()%></pre>
             <hr>
-            <p><a href="/upload/<%=driveBean.getFile()%>"><%=driveBean.getFile()%></a></p>
+            <p><a href="/driveUpload/<%=driveBean.getFile()%>"><%=driveBean.getFile()%></a></p>
             <hr>
 
             <input type="button" value="List" onclick="location.href='driveMain.jsp'"
