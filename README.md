@@ -2,14 +2,14 @@
 **2020.09.18 ~ 2020.10.13**
 
 **JSP를 활용한 게시판 구축**  
-  ---
+---
 - 개발 환경
     - JDK 8
     - Intellij
     - Mysql
     - Tomcat
     - HTML, CSS, JS, JSP
-  ---
+---
 1. 필수 구현 기술
     1. 회원가입 (완료)
     1. 우편번호 검색 API (완료)
@@ -27,7 +27,7 @@
         - MailSendServlet.java 수정
     1. 댓글 달기 (진행)
     1. 게시글 좋아요 (예정)
-  ---
+---
 1. 문제점
     - 회원가입 시 인증메일 에러
         1. SMTP 전송 불가  -> MessagingException 발생
@@ -37,4 +37,4 @@
         1. /board/Contents.jsp 의 replyInputForm 위치가 맨 밑에서만 보인다.
     - 페이징
         1. /board/boardList.jsp의 페이징 for문의 i가 나타나지 않음
-        ---
+---
