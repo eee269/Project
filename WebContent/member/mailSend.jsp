@@ -4,7 +4,8 @@
 <%@ page import="member.GoogleAuthentication" %>
 <%@ page import="javax.mail.internet.MimeMessage" %>
 <%@ page import="javax.mail.internet.InternetAddress" %>
-<%@ page import="javax.mail.*" %><%--
+<%@ page import="javax.mail.*" %>
+<%@ page import="member.MemberBean" %><%--
   Created by IntelliJ IDEA.
   User: USER
   Date: 2020-10-09
@@ -23,8 +24,11 @@
     request.setCharacterEncoding("utf-8");
     String id = request.getParameter("id");
     int random = memberDAO.getUserEmailHash(id);
+
+    MemberBean memberBean = memberDAO.getMember(id);
+
     String sender = "skfkd3123@gmail.com";
-    String receiver = request.getParameter("email");
+    String receiver = memberBean.getEmail();
     String subject = "회원가입을 위한 이메일 확인 바랍니다.";
     String content = "가입하시기 위해 다음의 내용을 입력하세요.<br><h2>인증 문자: "+
             random + " </h2>";
@@ -32,10 +36,11 @@
 
     try {
         Properties properties = System.getProperties();
-        properties.put("mail.stmp.starttls.enable", "true");
-        properties.put("mail.stmp.host", "smtp.gmail.com");
-        properties.put("mail.stmp.auth", "true");
-        properties.put("mail.stmp.port", "587");
+        properties.put("mail.smtp.debug", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.port", "587");
         Authenticator auth = new GoogleAuthentication();
         Session s = Session.getDefaultInstance(properties, auth);
         Message message = new MimeMessage(s);
@@ -49,16 +54,16 @@
         message.setSentDate(new java.util.Date());
         Transport.send(message);
 
-        out.print("<h3>메일이 정상적으로 정송되었습니다.</h3>");
-        RequestDispatcher rd =
-                request.getRequestDispatcher("../member/mailCheck.jsp?id=" + id + "&email=" + receiver);
-        rd.forward(request, response);
+        %>
+<script type="text/javascript">
+    alert("메일이 전송되었습니다.\n인증번호를 확인하세요.");
+    location.href = "../member/mailCheck.jsp?id='<%=id%>'";
+</script>
+<%
     } catch (Exception e) {
-        response.sendRedirect("mailCheck.jsp");
         e.printStackTrace();
     }
 %>
-
 
 </body>
 </html>

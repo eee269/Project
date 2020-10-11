@@ -19,7 +19,7 @@ boolean emailChecked = mdao.getUserEmailChecked(id);
 
 switch (check) {
     case 1:
-        if(!emailChecked) {
+        if(emailChecked == false) {
             %>
 <script type="text/javascript">
     alert("이메일 인증이 필요합니다.");

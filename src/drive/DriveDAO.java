@@ -1,5 +1,7 @@
 package drive;
 
+import board.BoardBean;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -14,16 +16,10 @@ public class DriveDAO {
     PreparedStatement pr = null;
     ResultSet rs = null;
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException, NamingException {
+    public Connection getConnection() throws SQLException, NamingException {
         Context init = new InitialContext();
         DataSource dataSource = (DataSource) init.lookup("java:comp/env/jdbc/MysqlDB");
         con = dataSource.getConnection();
-//        Class.forName("com.mysql.jdbc.Driver");
-//        String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
-//        String dbUser = "testid";
-//        String dbPass = "testpass";
-//        con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-
         return con;
     }
 
@@ -59,18 +55,19 @@ public class DriveDAO {
         return driveBean;
     }
 
-    public List getDriveList() {
+    public List getDriveList(int startRow, int pageSize) {
         List driveList = new ArrayList();
         try {
             con = getConnection();
 
-            sql = "select * from drive order by num desc";
+            sql = "select * from drive order by num desc limit ?,?";
             pr = con.prepareStatement(sql);
+            pr.setInt(1, startRow-1);
+            pr.setInt(2, pageSize);
             rs = pr.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 DriveBean driveBean = new DriveBean();
-
                 driveBean.setNum(rs.getInt("num"));
                 driveBean.setId(rs.getString("id"));
                 driveBean.setPass(rs.getString("pass"));

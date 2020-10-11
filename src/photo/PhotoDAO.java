@@ -2,6 +2,10 @@ package photo;
 
 import drive.DriveBean;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,30 +16,26 @@ public class PhotoDAO {
     PreparedStatement pr = null;
     ResultSet rs = null;
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Connection con = null;
-
-        Class.forName("com.mysql.jdbc.Driver");
-        String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
-        String dbUser = "testid";
-        String dbPass = "testpass";
-        con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-
+    public Connection getConnection() throws SQLException, NamingException {
+        Context init = new InitialContext();
+        DataSource dataSource = (DataSource) init.lookup("java:comp/env/jdbc/MysqlDB");
+        con = dataSource.getConnection();
         return con;
     }
 
-    public List getPhotoList() {
+    public List getPhotoList(int startRow, int pageSize) {
         List photoList = new ArrayList();
         try {
             con = getConnection();
 
-            sql = "select * from photo order by num desc";
+            sql = "select * from photo order by num desc limit ?,?";
             pr = con.prepareStatement(sql);
+            pr.setInt(1, startRow-1);
+            pr.setInt(2, pageSize);
             rs = pr.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 PhotoBean photoBean = new PhotoBean();
-
                 photoBean.setNum(rs.getInt("num"));
                 photoBean.setId(rs.getString("id"));
                 photoBean.setPass(rs.getString("pass"));
@@ -50,7 +50,9 @@ public class PhotoDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
         return photoList;
     }
@@ -84,7 +86,9 @@ public class PhotoDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+                if(rs != null) try {rs.close();} catch(SQLException exception) {}
+                if(pr != null) try {pr.close();} catch(SQLException exception) {}
+                if(con != null) try {con.close();} catch(SQLException exception) {}
         }
     }
 
@@ -100,7 +104,9 @@ public class PhotoDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
     }
 
@@ -130,7 +136,9 @@ public class PhotoDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
         return photoBean;
     }
@@ -147,7 +155,29 @@ public class PhotoDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
+    }
+
+    public int getPhotoCount() {
+        int count = 0;
+        try {
+            con = getConnection();
+            sql = "SELECT count(*) FROM photo";
+            pr = con.prepareStatement(sql);
+            rs = pr.executeQuery();
+            if(rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
+        }
+        return count;
     }
 }

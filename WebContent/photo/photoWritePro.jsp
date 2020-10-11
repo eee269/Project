@@ -16,7 +16,7 @@
 <body>
 <%
     request.setCharacterEncoding("utf-8");
-    String realPath = request.getServletContext().getRealPath("driveUpload");
+    String realPath = "C:\\Users\\USER\\eclipse-workspace\\ProjectPersonal\\WebContent\\photoUpload";
     System.out.print(realPath);
     int maxSize = 10*1024*1024;
     MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
@@ -49,7 +49,7 @@
 %>
 <script type="text/javascript">
     alert("게시글이 작성되었습니다.");
-    location.href="photoMain.jsp"
+    location.href="photoMain.jsp";
 </script>
 <%
         break;
@@ -65,7 +65,7 @@
 %>
 <script type="text/javascript">
     alert("잘못된 접근입니다. 다시 로그인 하세요.");
-    location.href="../member/loginForm.jsp"
+    location.href="../member/loginForm.jsp";
 </script>
 <%
     }

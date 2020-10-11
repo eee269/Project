@@ -13,7 +13,7 @@
 <body>
 <jsp:include page="../inc/nav.jsp"/>
 <section>
-    <table class="list" >
+    <table class="list">
         <tr>
             <td colspan="4">
                 <h1>Photo List</h1>
@@ -26,7 +26,19 @@
             int newLine = 0;
 
             PhotoDAO photoDAO = new PhotoDAO();
-            List photoList = photoDAO.getPhotoList();
+
+            int count = photoDAO.getPhotoCount();
+
+            int pageSize = 12;
+            String pageNum = request.getParameter("pageNum");
+            if(pageNum == null) {
+                pageNum = "1";
+            }
+
+            int currentPage = Integer.parseInt(pageNum);
+            int startRow = (currentPage-1) * pageSize + 1;
+
+            List photoList = photoDAO.getPhotoList(startRow, pageSize);
             SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd hh:mm");
 
             for(int i=0; i<photoList.size(); i++) {
@@ -70,8 +82,26 @@
             <td colspan="4" style="border-bottom: 2px solid black"></td>
         </tr>
 
-    <%--페이지 번호 들어갈 자리--%>
     </table>
+
+    <%
+        int pageBlock = 10;
+        int startPage = (currentPage-1)/pageSize * pageSize + 1;
+        int endPage = startPage + pageBlock - 1;
+        int pageCount = count/pageSize + (count%pageSize == 0? 0 : 1);
+        if(endPage > pageCount) {
+            endPage = pageCount;
+        }
+        if(startPage > pageBlock) {
+    %><a href="photoMain.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a> <%
+    }
+    for(int i=startPage; i<endPage+1; i++) {
+%><a href="photoMain.jsp?pageNum=<%=i%>"><%=i%> </a><%
+    }
+    if(endPage > pageBlock) {
+%><a href="photoMain.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a> <%
+    }
+%>
 
     <input type="button" value="Write" onclick="location.href='photoWriteForm.jsp'"
            class="button" style="float: right">

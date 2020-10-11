@@ -67,11 +67,10 @@
 <section>
     <form action="updatePro.jsp" method="post">
         <div class="left_notice">
-            <h2>UPDATE</h2>
-            <p>ID는<br> 변경이 <strong>불가능</strong> 합니다.</p>
-            <p>PASSWORD는<br> <strong>8글자 이상 12글자 이하</strong>로 입력해주세요</p>
-            <p>PASSWORD는<br> <strong>대소문자, 숫자, 특수기호(!, @, #, $)</strong> 중<br>
-                <strong>3가지 이상</strong> 써 주세요</p>
+            <h2>UPDATE</h2><br>
+            <p>ID는<br> 변경이 <strong>불가능</strong> 합니다.</p><br>
+            <p>PASSWORD는<br> <strong>8글자 이상 12글자 이하<br>
+                대소문자, 숫자</strong> 만<br>쓰세요</p>
         </div>
         <%
             String id = (String)session.getAttribute("id");

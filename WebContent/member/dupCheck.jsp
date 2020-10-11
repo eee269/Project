@@ -4,18 +4,21 @@
 <head>
     <link rel="stylesheet" href="../css/default.css" type="text/css">
     <title>ID dupCheck</title>
+    <%
+        String id = request.getParameter("id");
+        MemberDAO memberDAO = new MemberDAO();
+        int check = memberDAO.dupCheck(id);
+    %>
     <script type="text/javascript">
         function idok() {
+            opener.joiner.id.value = "<%=id%>";
             window.close();
         }
     </script>
 </head>
-<body style="align-items: center">
+<body style="text-align: center">
 <br>
 <%
-    String wid = request.getParameter("id");
-    MemberDAO memberDAO = new MemberDAO();
-    int check = memberDAO.dupCheck(wid);
 
     switch (check) {
         case 1:
@@ -24,13 +27,13 @@
 <br>
 <form action="dupCheck.jsp" method="post" name="wfr">
     <strong>아이디를 다시 입력하세요.</strong><br><br>
-    <input type="text" name="wid" value="<%=wid%>" class="text">
+    <input type="text" name="id" value="<%=id%>" class="text">
     <input type="submit" value="아이디 중복 체크" class="button">
 </form>
 <%
             break;
         case 0:
-            out.print("<h2>사용 가능</h2><br><br>");
+            out.print("<br><br>" + id + "<h2>사용 가능</h2><br><br>");
             %>
 <input type="button" value="아이디 사용" onclick="idok()" class="button">
 <%

@@ -69,6 +69,15 @@
                 document.joiner.id.focus();
                 return;
             }
+            for (var i = 0; i < document.joiner.id.value.length; i++) {
+                ch = document.joiner.id.value.charAt(i);
+                if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')&&!(ch >= 'A' && ch <= 'Z')) {
+                    alert("아이디는 영문 대소문자, 숫자만 입력가능합니다.");
+                    document.joiner.id.focus();
+                    document.joiner.id.select();
+                    return false;
+                }
+            }
             window.open("dupCheck.jsp?id=" + id, "", "width=400, height=300");
         }
 
@@ -80,11 +89,11 @@
 <section class="join">
     <form action="joinPro.jsp" method="post" name="joiner">
         <div class="left_notice">
-            <h2>JOIN</h2>
-            <p>ID는<br> <strong>6글자 이상</strong> 입력해주세요</p>
-            <p>PASSWORD는<br> <strong>8글자 이상 12글자 이하</strong>로 입력해주세요</p>
-            <p>PASSWORD는<br> <strong>대소문자, 숫자, 특수기호(!, @, #, $)</strong> 중<br>
-                <strong>3가지 이상</strong> 써 주세요</p>
+            <h2>JOIN</h2><br>
+            <p>ID는<br> <strong>6글자 이상<br>영문 대소문자, 숫자</strong>만 입력하세요</p>
+            <br>
+            <p>PASSWORD는<br> <strong>8글자 이상 12글자 이하<br>
+                대소문자, 숫자</strong> 만<br>쓰세요</p>
         </div>
         <div class="login">
             <fieldset>

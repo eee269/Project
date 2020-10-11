@@ -43,7 +43,7 @@
                 int currentPage = Integer.parseInt(pageNum);
                 int startRow = (currentPage-1) * pageSize + 1;
 
-                List driveList = driveDAO.getDriveList();
+                List driveList = driveDAO.getDriveList(startRow, pageSize);
                 SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd hh:mm");
 
                 for(int i=0; i<driveList.size(); i++) {
@@ -70,13 +70,13 @@
             endPage = pageCount;
         }
         if(startPage > pageBlock) {
-    %><a href="boardMain.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a> <%
+    %><a href="driveMain.jsp?pageNum=<%=startPage-pageBlock%>">[PREV]</a> <%
     }
     for(int i=startPage; i<endPage+1; i++) {
-%><a href="boardMain.jsp?pageNum=<%=i%>"><%=i%> </a><%
+%><a href="driveMain.jsp?pageNum=<%=i%>"><%=i%> </a><%
     }
     if(endPage > pageBlock) {
-%><a href="boardMain.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a> <%
+%><a href="driveMain.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a> <%
     }
 %>
 

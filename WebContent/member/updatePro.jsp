@@ -27,6 +27,17 @@
     MemberBean mb = new MemberBean();
 
     if(pass1.length() >= 8 && pass1.length() <= 12) {
+        for (int i = 0; i < pass1.length(); i++) {
+            char ch = pass1.charAt(i);
+            if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z') && !(ch >= 'A' && ch <= 'Z')) {
+%>
+<script type="text/javascript">
+    alert("비밀번호는 영문 대소문자, 숫자만 사용 가능합니다.");
+    history.back();
+</script>
+<%
+        }
+    }
         if(pass1.equals(pass2)) {
             mb.setPass(pass1);
         } else {

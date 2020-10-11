@@ -2,7 +2,6 @@
 <%@ page import="member.MemberBean" %>
 <%@ page import="member.MemberDAO" %>
 <%@ page import="java.util.Random" %>
-<%@ page import="member.MailSend" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -32,6 +31,17 @@
     MemberBean mb = new MemberBean();
 
     if(pass1.length() >= 8 && pass1.length() <= 12) {
+        for (int i = 0; i < pass1.length(); i++) {
+            char ch = pass1.charAt(i);
+            if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z') && !(ch >= 'A' && ch <= 'Z')) {
+                %>
+<script type="text/javascript">
+    alert("비밀번호는 영문 대소문자, 숫자만 사용 가능합니다.");
+    history.back();
+</script>
+<%
+            }
+        }
         if(pass1.equals(pass2)) {
             mb.setPass(pass1);
 
@@ -64,12 +74,6 @@
     }
     MemberDAO mdao = new MemberDAO();
     mdao.joinMember(mb);
-
-//    request.getSession().setAttribute("id", id);
-//    response.sendRedirect("/mailSend");
-//
-//    MailSend mailSend = new MailSend();
-//    mailSend.MailSet(mb.getEmail(), mb.getEmailHash());
 %>
 
 <form action="../member/mailSend.jsp" method="post" id="fm">

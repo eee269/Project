@@ -207,7 +207,7 @@ public class MemberDAO {
 			rs = pr.executeQuery();
 
 			if(rs.next()) {
-				return rs.getInt(1);
+				return rs.getInt("emailHash");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

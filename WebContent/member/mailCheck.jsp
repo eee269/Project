@@ -1,6 +1,4 @@
-﻿<%@ page import="member.MemberBean" %>
-<%@ page import="member.MemberDAO" %>
-<%@ page import="member.MailSend" %>
+﻿<%@ page import="member.MemberDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -11,47 +9,27 @@
     request.setCharacterEncoding("utf-8");
     String id = (String) session.getAttribute("id");
     if (id == null)        id = request.getParameter("id");
-    String email = request.getParameter("email");
     MemberDAO memberDAO = new MemberDAO();
-    int randomCheck = memberDAO.getUserEmailHash(id);
     boolean emailChecked = memberDAO.getUserEmailChecked(id);
 %>
-    <script>
-        function emailChecked() {
-            var randomCheckValue = document.checkform.randomCheck.value;
-            if(randomCheckValue !== <%=randomCheck%>) {
-                alert("다시 입력하세요.");
-                document.checkform.action="../member/mailCheck.jsp";
-                document.checkform.submit();
-            } else {
-                <%
-                memberDAO.setUserEmailChecked(id);
-                %>
-                alert("인증이 완료되었습니다!");
-                location.href="loginForm.jsp";
-            }
-        }
-    </script>
+
 </head>
 <body>
 <jsp:include page="../inc/nav.jsp"/>
 
 <%
-    if(!emailChecked) {
+    if(emailChecked == false) {
 %>
 <fieldset style="padding: 200px 400px; text-align: center; border: none">
     <h1>인증번호를 입력하세요.</h1>
-    <form action="../member/mailSend.jsp" method="post">
+    <p>인증 메일 재전송을 원하시면 버튼을 눌러주세요.</p>
+    <input type="button" value="재전송" class="button" onclick="location.href='../member/mailSend.jsp?id=<%=id%>'"><br>
+    <form action="emailChecked.jsp" method="post" name="checkform">
         <input type="hidden" name="id" value="<%=id%>">
-        <input type="hidden" name="email" value="<%=email%>">
-        <p>인증 메일 재전송을 원하시면 버튼을 눌러주세요.</p>
-        <input type="submit" value="재전송" class="button"><br>
-    </form>
-    <form method="post" name="checkform">
         <br>
         <input type="text" name="randomCheck" placeholder="인증번호를 입력하세요." class="text" required>
         <br><br>
-        <input type="submit" value="입력 완료" onclick="emailChecked()" class="button">
+        <input type="submit" value="입력 완료" class="button">
     </form>
 </fieldset>
 <%
@@ -64,7 +42,6 @@
 <%
     }
 %>
-
 <jsp:include page="../inc/footer.jsp"/>
 </body>
 </html>
