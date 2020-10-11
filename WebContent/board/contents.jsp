@@ -31,63 +31,31 @@
             document.replyInputForm.rememo.focus();
             return;
         }
-        document.replyInputForm.rememo.value = "";
-        location.reload();
         document.replyInputForm.submit();
     }
     function replyDelete(reno) {
         if (!confirm("삭제하시겠습니까?")) {
             return;
         }
-        return location.href = "./reply/replyDelete.jsp?reno=" + reno;
+        return location.href = "reply/replyDelete.jsp?reno=" + reno;
     }
 
-    function replyUpdate(f_reno, f_rememo){
-            // var reply = document.getElementById("reply" + reno);
-        document.replyUpdateForm.style.display = 'block';
+    function replyUpdate(reno){
+        var div = document.getElementById("replyUpdatediv" + reno);
+        div.style.display = 'block';
         document.replyInputForm.style.display = 'none';
 
-        document.replyUpdateForm.reno.value = f_reno;
-        document.replyUpdateForm.rememo.value = f_rememo;
-        document.replyUpdateForm.rememo.focus();
-
-        document.body.appendChild(document.replyUpdateForm);
-            // if (updateReno) {
-            //     document.body.appendChild(replyDiv);
-            //     var oldReno = document.getElementById("reply" + updateReno);
-            //     oldReno.innerText = updateRememo;
-            // }
-        //     form.reno.value = reno;
-        //     form.rememo.value = reply.innerText;
-        //     reply.innerText = "";
-        //     reply.appendChild(replyDiv);
-        //     updateReno = reno;
-        //     updateRememo = form.rememo.value;
-        //     form.rememo.focus();
     }
-    //
-    // function replyUpdateSave(){
-    //     var form = document.replyUpdateForm;
-    //     if (form.rememo.value=="") {
-    //         alert("글 내용을 입력해주세요.");
-    //         form.rememo.focus();
-    //         return;
-    //     }
-    //     form.submit();
-    // }
-    //
-    function replyUpdateCancel(){
-        document.replyUpdateForm.style.display = 'none';
-        document.replyInputForm.style.display = '';
 
-        // var form = document.replyUpdateForm;
-        // var replyDiv = document.getElementById("replyDiv");
-        // document.body.appendChild(replyDiv);
-        // replyDiv.style.display = "none";
-        //
-        // var oldReno = document.getElementById("reply"+updateReno);
-        // oldReno.innerText = updateRememo;
-        // updateReno = updateRememo = null;
+    function replyUpdateSave(reno) {
+        // var form = document.getElementById("replyUpdateForm" + reno);
+        document.updateformtable.action="reply/replyUpdate.jsp?reno=" + reno;
+        document.updateformtable.submit();
+    }
+    function replyUpdateCancel(reno){
+        var div = document.getElementById("replyUpdatediv" + reno);
+        div.style.display = 'none';
+        document.replyInputForm.style.display = 'block';
     }
 
 </script>
@@ -111,6 +79,8 @@
             <%--댓글자리--%>
             <h3>Comments</h3>
 
+            <form name="updateformtable" action="reply/replySubmit.jsp" method="post">
+                <input type="hidden" name="brdno" value="<%=bb.getNum()%>">
             <table class="list" align="left">
                 <%
                     List boardReplyList = brdao.getBoardReplyList();
@@ -120,35 +90,39 @@
                         if(brb.getBrdno() == bb.getNum()){
                 %>
                     <tr class="list_menu">
-                        <input type="hidden" name="reno" value="<%=brb.getReno()%>">
                         <td name="rewriter"><%=brb.getRewriter()%></td>
                         <td name="rememo"><%=brb.getRememo()%></td>
-                        <td name="redate"><%=sdf.format(brb.getRedate())%></td>
+                        <td name="redate"><%=sdf.format(brb.getRedate())%><input type="hidden" name="reno" value="<%=brb.getReno()%>"></td>
                         <%
                             if(brb.getRewriter().equals(id)) {
                         %>
-                        <td><input type="button" value="수정" onclick="replyUpdate(<%=brb.getReno()%>, <%=brb.getRememo()%>)" class="button">
-                            <input type="button" value="삭제" onclick="replyDelete(<%=brb.getReno()%>)" class="button"></td>
+                        <td><input type="button" value="수정" onclick="replyUpdate(<%=brb.getReno()%>)" class="button">
+                            <input type="button" value="삭제" onclick="replyDelete(reno)" class="button"></td>
                         <%
                             } else {    %> <td></td> <%   }
                         %>
+                    </tr>
+
+                    <tr>
+                        <td colspan="4">
+                       <div id="replyUpdatediv<%=brb.getReno()%>" style="border: 0; width: auto; padding: 5px; display: none">
+                            <textarea name="rememo<%=brb.getReno()%>" rows="3" cols="60" maxlength="500" class="board_reply_content">
+                                <%=brb.getRememo()%>
+                        </textarea>
+
+
+                            <input type="button" value="저장" onclick="replyUpdateSave(<%=brb.getReno()%>)" class="button">
+                            <input type="button" value="취소" onclick="replyUpdateCancel(<%=brb.getReno()%>)" class="button">
+                       </div>
+
+                        </td>
                     </tr>
                 <%
                         }
                     }
                 %>
             </table>
-
-            <form name="replyUpdateForm" action="reply/replySubmit.jsp" method="post" style="border: 0; width: 800px; padding: 5px; display: none">
-                <input type="hidden" name="brdno" value="<%=bb.getNum()%>">
-                <input type="hidden" name="reno">
-                <textarea name="rememo" rows="3" cols="60" maxlength="500"
-                          class="board_reply_content" placeholder="댓글을 달아주세요.">
-                </textarea>
-                <input type="button" value="저장" onclick="replyUpdateSave()" class="button">
-                <input type="button" value="취소" onclick="replyUpdateCancel()" class="button">
             </form>
-
             <p>&nbsp;</p>
             <hr>
             <form name="replyInputForm" action="reply/replySubmit.jsp" method="post" style="border: 0; width: 800px; padding: 5px">
@@ -157,7 +131,7 @@
                 <%
                     if(id == null) {
                         %>
-                <textarea rows="3" cols="60" maxlength="500" class="board_reply_content"
+                <textarea name="rememo" rows="3" cols="60" maxlength="500" class="board_reply_content"
                           onclick="location.href='../member/loginForm.jsp'" readonly>로그인 하세요.</textarea>
                 <%
                     } else {%>

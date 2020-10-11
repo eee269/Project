@@ -51,10 +51,10 @@
 
         out.print("<h3>메일이 정상적으로 정송되었습니다.</h3>");
         RequestDispatcher rd =
-                request.getRequestDispatcher("../member/mailCheck.jsp?id=" + id);
+                request.getRequestDispatcher("../member/mailCheck.jsp?id=" + id + "&email=" + receiver);
         rd.forward(request, response);
     } catch (Exception e) {
-        out.print("STMP 서버가 잘못 설정되었거나, 서비스에 문제가 있습니다.");
+        response.sendRedirect("mailCheck.jsp");
         e.printStackTrace();
     }
 %>

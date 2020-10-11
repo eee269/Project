@@ -1,5 +1,6 @@
 <%@ page import="member.MemberDAO" %>
 <%@ page import="drive.DriveDAO" %>
+<%@ page import="photo.PhotoDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,13 +17,13 @@
 
     switch (check) {
         case 1:
-            DriveDAO driveDAO = new DriveDAO();
-            driveDAO.deleteDrive(num, id);
-
+            PhotoDAO photoDAO = new PhotoDAO();
+            photoDAO.deletePhoto(num, id);
+//driveUpload에 있는 파일도 삭제해야할것같은디?
 %>
 <script type="text/javascript">
     alert("게시물이 삭제되었습니다.");
-    location.href = "driveMain.jsp";
+    location.href = "photoMain.jsp";
 </script>
 <%
         break;

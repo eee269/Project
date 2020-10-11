@@ -15,8 +15,9 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("utf-8");
     String realPath = request.getServletContext().getRealPath("driveUpload");
-    out.print(realPath);
+    System.out.print(realPath);
     int maxSize = 10*1024*1024;
     MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 

@@ -14,10 +14,15 @@ public class BoardDAO {
     PreparedStatement pr = null;
     ResultSet rs = null;
 
-    public Connection getConnection() throws SQLException, NamingException {
+    public Connection getConnection() throws SQLException, ClassNotFoundException, NamingException {
         Context init = new InitialContext();
         DataSource dataSource = (DataSource) init.lookup("java:comp/env/jdbc/MysqlDB");
         con = dataSource.getConnection();
+//        Class.forName("com.mysql.jdbc.Driver");
+//        String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
+//        String dbUser = "testid";
+//        String dbPass = "testpass";
+//        con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
 
         return con;
     }
@@ -221,6 +226,30 @@ public class BoardDAO {
             sql = "SELECT count(*) FROM board";
             pr = con.prepareStatement(sql);
             rs = pr.executeQuery();
+            if(rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
+        }
+        return count;
+    }
+
+    public int getBoardReplyCount(int brdno) {
+        int count = 0;
+        try {
+            con = getConnection();
+            sql = "SELECT count(reno) FROM board_reply WHERE brdno = ?";
+            pr = con.prepareStatement(sql);
+            pr.setInt(1, brdno);
+            rs = pr.executeQuery();
+            if(rs.next()) {
+                count = rs.getInt(1);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

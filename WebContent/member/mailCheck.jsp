@@ -11,15 +11,15 @@
     request.setCharacterEncoding("utf-8");
     String id = (String) session.getAttribute("id");
     if (id == null)        id = request.getParameter("id");
+    String email = request.getParameter("email");
     MemberDAO memberDAO = new MemberDAO();
-    MemberBean memberBean = memberDAO.getMember(id);
     int randomCheck = memberDAO.getUserEmailHash(id);
-    boolean emailChecked = memberBean.isEmailChecked();
+    boolean emailChecked = memberDAO.getUserEmailChecked(id);
 %>
     <script>
         function emailChecked() {
             var randomCheckValue = document.checkform.randomCheck.value;
-            if(randomCheckValue != <%=randomCheck%>) {
+            if(randomCheckValue !== <%=randomCheck%>) {
                 alert("다시 입력하세요.");
                 document.checkform.action="../member/mailCheck.jsp";
                 document.checkform.submit();
@@ -43,7 +43,7 @@
     <h1>인증번호를 입력하세요.</h1>
     <form action="../member/mailSend.jsp" method="post">
         <input type="hidden" name="id" value="<%=id%>">
-        <input type="hidden" name="email" value="<%=memberBean.getEmail()%>">
+        <input type="hidden" name="email" value="<%=email%>">
         <p>인증 메일 재전송을 원하시면 버튼을 눌러주세요.</p>
         <input type="submit" value="재전송" class="button"><br>
     </form>

@@ -16,7 +16,7 @@
 </head>
 <body>
 <%
-    String realPath = request.getServletContext().getRealPath("driveUpload");
+    String realPath = "C:\\Users\\USER\\eclipse-workspace\\ProjectPersonal\\WebContent\\driveUpload";
     System.out.println(realPath);
     int maxSize = 10*1024*1024;
     MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());

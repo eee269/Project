@@ -37,7 +37,7 @@
             <hr>
             <pre class="memo"><%=driveBean.getContent()%></pre>
             <hr>
-            <p><a href="/driveUpload/<%=driveBean.getFile()%>"><%=driveBean.getFile()%></a></p>
+            <p><a href="../driveUpload/<%=driveBean.getFile()%>"><%=driveBean.getFile()%></a></p>
             <hr>
 
             <input type="button" value="List" onclick="location.href='driveMain.jsp'"
@@ -48,7 +48,28 @@
                    class="button" style="float: right">
         </fieldset>
     </div>
-</section>
+    <br>
+    <div id="disqus_thread"><p> </p></div>
+    <script>
+
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+        var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document, s = d.createElement('script');
+            s.src = 'https://yjboardproject.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the </noscript>
+</section><a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
 
 <jsp:include page="../inc/footer.jsp"/>
 </body>

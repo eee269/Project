@@ -1,5 +1,9 @@
 package drive;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +14,15 @@ public class DriveDAO {
     PreparedStatement pr = null;
     ResultSet rs = null;
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        Connection con = null;
-
-        Class.forName("com.mysql.jdbc.Driver");
-        String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
-        String dbUser = "testid";
-        String dbPass = "testpass";
-        con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+    public Connection getConnection() throws ClassNotFoundException, SQLException, NamingException {
+        Context init = new InitialContext();
+        DataSource dataSource = (DataSource) init.lookup("java:comp/env/jdbc/MysqlDB");
+        con = dataSource.getConnection();
+//        Class.forName("com.mysql.jdbc.Driver");
+//        String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
+//        String dbUser = "testid";
+//        String dbPass = "testpass";
+//        con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
 
         return con;
     }
@@ -47,7 +52,9 @@ public class DriveDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
         return driveBean;
     }
@@ -77,6 +84,10 @@ public class DriveDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
         return driveList;
 
@@ -94,7 +105,9 @@ public class DriveDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
     }
 
@@ -127,7 +140,9 @@ public class DriveDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
 
     }
@@ -148,7 +163,9 @@ public class DriveDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
     }
 
@@ -165,7 +182,29 @@ public class DriveDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
+    }
+
+    public int getDriveCount() {
+        int count = 0;
+        try {
+            con = getConnection();
+            sql = "SELECT count(*) FROM drive";
+            pr = con.prepareStatement(sql);
+            rs = pr.executeQuery();
+            if(rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
+        }
+        return count;
     }
 }

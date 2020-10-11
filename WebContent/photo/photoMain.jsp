@@ -39,7 +39,17 @@
         <td align="center" width="190">
             <input type="hidden" name="num" value="<%=photoBean.getNum()%>">
             <a href="photoContents.jsp?num=<%=photoBean.getNum()%>">
+                <%
+                    if(photoBean.getFile() == null) {
+                        %>
+                <img src="../photoUpload/icons8-image-gallery-100.png" alt="Photo" width="190" height="190"><br>
+                <%
+                    } else {
+                %>
                 <img src="../photoUpload/<%=photoBean.getFile()%>" alt="" width="190" height="190"><br>
+                <%
+                }
+                %>
                 <%=photoBean.getTitle()%>&nbsp;&nbsp; <%=sdf.format(photoBean.getDate())%>
             </a>
         </td>

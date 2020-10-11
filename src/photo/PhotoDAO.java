@@ -134,4 +134,20 @@ public class PhotoDAO {
         }
         return photoBean;
     }
+
+    public void deletePhoto(int num, String id) {
+        try {
+            con = getConnection();
+
+            sql = "DELETE FROM photo where num = ? and id = ?";
+            pr = con.prepareStatement(sql);
+            pr.setInt(1, num);
+            pr.setString(2, id);
+            pr.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+    }
 }

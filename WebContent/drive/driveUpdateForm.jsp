@@ -42,8 +42,8 @@
                 <input type="hidden" name="num" value="<%=num%>">
                 <h2>Drive Update</h2><hr>
                 <input type="text" name="id" class="text" value="<%=driveBean.getId()%>" readonly>
-                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK"><br>
-                <input type="text" name="title" class="board_title" value="<%=driveBean.getTitle()%>"><br>
+                <input type="password" name="pass2" class="text" placeholder="PASSWORD CHECK" required><br>
+                <input type="text" name="title" class="board_title" value="<%=driveBean.getTitle()%>" required><br>
                 <hr>
                 <input type="file" name="file" value="<%=driveBean.getFile()%>"> <br>
                 <hr>

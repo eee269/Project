@@ -1,5 +1,9 @@
 package board;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +14,10 @@ public class BoardReplyDAO {
     PreparedStatement pr;
     ResultSet rs;
 
-    public Connection getConnection() throws ClassNotFoundException, SQLException {
-        con = null;
-
-        Class.forName("com.mysql.jdbc.Driver");
-        String dbUrl = "jdbc:mysql://localhost:3306/jspyj";
-        String dbUser = "testid";
-        String dbPass = "testpass";
-        con = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+    public Connection getConnection() throws ClassNotFoundException, SQLException, NamingException {
+        Context init = new InitialContext();
+        DataSource dataSource = (DataSource) init.lookup("java:comp/env/jdbc/MysqlDB");
+        con = dataSource.getConnection();
 
         return con;
     }
@@ -43,6 +43,10 @@ public class BoardReplyDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
         return brb;
     }
@@ -68,6 +72,10 @@ public class BoardReplyDAO {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
         return boardReplyList;
 
@@ -98,6 +106,10 @@ public class BoardReplyDAO {
             pr.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
     }
 
@@ -114,6 +126,10 @@ public class BoardReplyDAO {
             pr.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
     }
 
@@ -129,6 +145,10 @@ public class BoardReplyDAO {
             pr.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if(rs != null) try {rs.close();} catch(SQLException exception) {}
+            if(pr != null) try {pr.close();} catch(SQLException exception) {}
+            if(con != null) try {con.close();} catch(SQLException exception) {}
         }
     }
 }

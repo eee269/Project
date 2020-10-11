@@ -12,7 +12,7 @@
     String fileName = request.getParameter( "file_name" );
  	System.out.println(fileName);
  	// upload폴더의 물리적인 경로 확인
-     String savePath = "driveUpload";
+     String savePath = "../driveUpload";
      ServletContext context = getServletContext();
      String sDownloadPath = context.getRealPath(savePath);
      // upload물리적 경로\\ 파일이름

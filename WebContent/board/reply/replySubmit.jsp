@@ -29,16 +29,8 @@
         brdao.insertBoardReply(brb);
 %>
 <script>
-    history.back();
+    location.replace("../contents.jsp?num=<%=brdno%>");
 </script>
-<%
-    } else {
-        brdao.updateBoardReply(brb);
-%>
-    <script>
-        alert("수정되었습니다.");
-        history.back();
-    </script>
 <%
     }
 %>

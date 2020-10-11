@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Yejin_Photo_Write</title>
     <link rel="stylesheet" href="../css/default.css" type="text/css">
+    <link rel="stylesheet" href="../css/BDwrite.css" type="text/css">
     <link rel="stylesheet" href="../css/list.css" type="text/css">
 </head>
 <body>

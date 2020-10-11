@@ -49,10 +49,11 @@
 
             for(int i=0; i<boardList.size(); i++) {
                 BoardBean bb = (BoardBean) boardList.get(i);
+                int replyCount = boardDAO.getBoardReplyCount(bb.getNum());
                 %>
             <tr class="list_menu" onclick="location.href='contents.jsp?num=<%=bb.getNum()%>'">
                 <td><%=bb.getNum()%></td>
-                <td><%=bb.getTitle()%></td>
+                <td><%=bb.getTitle()%> [<%=replyCount%>]</td>
                 <td><%=bb.getId()%></td>
                 <td><%=sdf.format(bb.getDate())%></td>
                 <td><%=bb.getReadcount()%></td>
@@ -77,11 +78,10 @@
         for(int i=startPage; i<endPage+1; i++) {
             %><a href="boardMain.jsp?pageNum=<%=i%>"><%=i%> </a><%
         }
-        if(endPage < pageBlock) {
+        if(endPage > pageBlock) {
             %><a href="boardMain.jsp?pageNum=<%=startPage+pageBlock%>">[NEXT]</a> <%
         }
     %>
-
     <input type="button" value="Write" onclick="location.href='writeForm.jsp'"
            class="button" style="float: right">
 </section>
